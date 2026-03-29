@@ -3,112 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Майқы би - Тест</title>
+    <title>Майқы би мұрасы - Тест</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .quiz-container {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 600px;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            font-size: 24px;
-        }
-        .progress {
-            text-align: center;
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-        }
-        .question {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        button {
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
-        }
-        button:hover:not(:disabled) {
-            background-color: #f0f4f8;
-            border-color: #bdc3c7;
-        }
-        button:disabled {
-            cursor: not-allowed;
-        }
-        .correct {
-            background-color: #d4edda !important;
-            border-color: #28a745 !important;
-            color: #155724;
-        }
-        .incorrect {
-            background-color: #f8d7da !important;
-            border-color: #dc3545 !important;
-            color: #721c24;
-        }
-        .feedback {
-            margin-top: 15px;
-            font-weight: bold;
-            text-align: center;
-            min-height: 24px;
-        }
-        .result-container {
-            text-align: center;
-            display: none;
-        }
-        .result-container h2 {
-            font-size: 28px;
-            color: #27ae60;
-        }
+        body { font-family: 'Arial', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        #quiz-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        h1 { text-align: center; color: #2c3e50; font-size: 24px; margin-bottom: 20px; }
+        .question { font-size: 18px; font-weight: bold; margin-bottom: 20px; color: #34495e; }
+        .options { display: grid; gap: 10px; }
+        button { padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; transition: 0.3s; font-size: 16px; text-align: left; }
+        button:hover { background: #e1e8f0; border-color: #3498db; }
+        #score-container { text-align: center; display: none; }
+        .progress { margin-bottom: 10px; font-size: 14px; color: #7f8c8d; }
+        #next-btn { margin-top: 20px; width: 100%; background: #3498db; color: white; border: none; display: none; text-align: center; }
+        #next-btn:hover { background: #2980b9; }
     </style>
 </head>
 <body>
 
-<div class="quiz-container" id="quiz-container">
-    <h1>Дала данышпаны Майқы би</h1>
-    <div class="progress" id="progress">Сұрақ: 1 / 30</div>
-    <div class="question" id="question">Сұрақ осында болады</div>
-    <div class="options" id="options">
-        </div>
-    <div class="feedback" id="feedback"></div>
-</div>
-
-<div class="quiz-container result-container" id="result-container">
-    <h2>Тест аяқталды!</h2>
-    <p id="score-text"></p>
-    <button onclick="location.reload()" style="text-align: center; margin-top: 20px;">Қайта бастау</button>
+<div id="quiz-container">
+    <h1>Майқы би мұрасы: Тест</h1>
+    <div id="quiz-content">
+        <div class="progress" id="progress">Сұрақ: 1 / 150</div>
+        <div class="question" id="question">Жүктелуде...</div>
+        <div class="options" id="options"></div>
+        <button id="next-btn" onclick="nextQuestion()">Келесі сұрақ</button>
+    </div>
+    <div id="score-container">
+        <h2>Тест аяқталды!</h2>
+        <p id="score-text"></p>
+        <button onclick="location.reload()" style="background: #27ae60; color: white; width: 100%; text-align: center;">Қайта бастау</button>
+    </div>
 </div>
 
 <script>
-    // 92-134 беттерден алынған сұрақтар
-    
-        const questions = [
+// 150 СҰРАҚТЫҢ ТОЛЫҚ МАССИВІ
+const questions = [
     { question: "Майқы бидің «Билік» ілімінің ең алғашқы негізін қалаушы кім?", options: ["Алтай дана би", "Арыс би", "Төле би", "Әйтеке би"], answer: 0 },
     { question: "«Билік» ілімін бір жүйеге келтірген тұлға?", options: ["Шыңғыс хан", "Арыс би", "Майқы би", "Алаша хан"], answer: 1 },
     { question: "Майқы би бойынша: «Би екеу болса, дау ... болады».", options: ["Біреу", "Екеу", "Төртеу", "Бесеу"], answer: 2 },
@@ -118,7 +47,7 @@
     { question: "Майқы бидің «Қызыл тіл» концепциясы нені меңзейді?", options: ["Тілдің түсін", "Шешендік пен дипломатиялық тілді", "Жалған сөйлеуді", "Тек заңды"], answer: 1 },
     { question: "Майқы би бойынша «Ақ сүйек» (аристократ) деп кімдерді атаған?", options: ["Тек байларды", "Ел билеген рухани элитаны", "Шетелдіктерді", "Батырларды"], answer: 1 },
     { question: "Майқы бидің шын есімі?", options: ["Ұран", "Төбей", "Кейкі", "Бабыралы"], answer: 0 },
-    { question: "Майқы бидің әкесінің аты?", options: ["Кейкі", "Төбей", "Арыс", "Үйсін"], answer: 1 },
+    { question: "Майқы бидің әкесі၏ аты?", options: ["Кейкі", "Төбей", "Арыс", "Үйсін"], answer: 1 },
     { question: "«Түгел сөздің түбі бір, түп атасы – ...»", options: ["Алаш", "Алаша хан", "Майқы би", "Үйсін"], answer: 2 },
     { question: "Майқы би 40 руға таңбаны қай жерде берген?", options: ["Түркістанда", "Ұлытауда", "Алтайда", "Жетісуда"], answer: 1 },
     { question: "Үйсін руына қандай таңба берілді?", options: ["Жалау", "Көз", "Найза", "Шөміш"], answer: 0 },
@@ -211,7 +140,7 @@
     { question: "«Ақылды» – тозған елді ...", options: ["Септесе", "Билесе", "Байытса", "Қорғаса"], answer: 0 },
     { question: "«Ер жігіт» – жауға тастап ...", options: ["Кетпесе", "Қашпаса", "Бермесе", "Өлмесе"], answer: 0 },
     { question: "«Төсекке ... жатарсың».", options: ["Есеппен", "Алаңдап", "Ұйқысыз", "Кеш"], answer: 0 },
-    { question: "«Баққаның ... болар».", options: ["Өсек", "Мал", "Бала", "Жер"], answer: 0 },
+    { question: "«Баққаның ... болмақ».", options: ["Өсек", "Мал", "Бала", "Жер"], answer: 0 },
     { question: "«Жер ... болар».", options: ["Тақыр", "Кең", "Тар", "Жасыл"], answer: 0 },
     { question: "Майқы бидің «Алаш» ұраны?", options: ["Алаш, алаш болғанда", "Бірлік түбі - береке", "Бөлінгенді бөрі жейді", "Ел - ердің анасы"], answer: 0 },
     { question: "«Сары судан ... шығар».", options: ["Ас", "Мұнай", "У", "Сүт"], answer: 0 },
@@ -260,79 +189,60 @@
     { question: "Майқы бидің шын аты?", options: ["Ұран", "Төбей", "Кейкі", "Бабыралы"], answer: 0 }
 ];
 
+let currentQuestionIndex = 0;
+let score = 0;
 
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let acceptingAnswers = true;
-
-    const questionEl = document.getElementById('question');
-    const optionsEl = document.getElementById('options');
-    const feedbackEl = document.getElementById('feedback');
-    const progressEl = document.getElementById('progress');
-    const quizContainer = document.getElementById('quiz-container');
-    const resultContainer = document.getElementById('result-container');
-    const scoreText = document.getElementById('score-text');
-
-    function loadQuestion() {
-        acceptingAnswers = true;
-        feedbackEl.innerText = '';
-        optionsEl.innerHTML = '';
-        
-        const currentData = quizData[currentQuestionIndex];
-        questionEl.innerText = currentData.question;
-        progressEl.innerText = `Сұрақ: ${currentQuestionIndex + 1} / ${quizData.length}`;
-
-        currentData.options.forEach((option, index) => {
-            const button = document.createElement('button');
-            button.innerText = option;
-            button.onclick = () => checkAnswer(index, button);
-            optionsEl.appendChild(button);
-        });
+function loadQuestion() {
+    const quizContent = document.getElementById("quiz-content");
+    const scoreContainer = document.getElementById("score-container");
+    
+    if (currentQuestionIndex >= questions.length) {
+        quizContent.style.display = "none";
+        scoreContainer.style.display = "block";
+        document.getElementById("score-text").innerText = `Сіз ${questions.length} сұрақтың ${score}-іне дұрыс жауап бердіңіз.`;
+        return;
     }
 
-    function checkAnswer(selectedIndex, button) {
-        if (!acceptingAnswers) return;
-        acceptingAnswers = false;
+    const q = questions[currentQuestionIndex];
+    document.getElementById("progress").innerText = `Сұрақ: ${currentQuestionIndex + 1} / ${questions.length}`;
+    document.getElementById("question").innerText = q.question;
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    document.getElementById("next-btn").style.display = "none";
 
-        const currentData = quizData[currentQuestionIndex];
-        const correctIndex = currentData.answer;
-        const allButtons = optionsEl.querySelectorAll('button');
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(index, btn);
+        optionsDiv.appendChild(btn);
+    });
+}
 
-        // Disable all buttons
-        allButtons.forEach(btn => btn.disabled = true);
+function checkAnswer(selectedIndex, btn) {
+    const q = questions[currentQuestionIndex];
+    const buttons = document.getElementById("options").getElementsByTagName("button");
+    
+    for (let b of buttons) b.disabled = true;
 
-        if (selectedIndex === correctIndex) {
-            button.classList.add('correct');
-            feedbackEl.innerText = "Дұрыс!";
-            feedbackEl.style.color = "#28a745";
-            score++;
-        } else {
-            button.classList.add('incorrect');
-            allButtons[correctIndex].classList.add('correct');
-            feedbackEl.innerText = "Қате! Дұрыс жауап жасылмен белгіленді.";
-            feedbackEl.style.color = "#dc3545";
-        }
-
-        setTimeout(nextQuestion, 2000);
+    if (selectedIndex === q.answer) {
+        btn.style.background = "#2ecc71";
+        btn.style.color = "white";
+        score++;
+    } else {
+        btn.style.background = "#e74c3c";
+        btn.style.color = "white";
+        buttons[q.answer].style.background = "#2ecc71";
+        buttons[q.answer].style.color = "white";
     }
+    document.getElementById("next-btn").style.display = "block";
+}
 
-    function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < quizData.length) {
-            loadQuestion();
-        } else {
-            showResults();
-        }
-    }
-
-    function showResults() {
-        quizContainer.style.display = 'none';
-        resultContainer.style.display = 'block';
-        scoreText.innerText = `Сіз ${quizData.length} сұрақтың ${score} сұрағына дұрыс жауап бердіңіз!`;
-    }
-
-    // Бастау
+function nextQuestion() {
+    currentQuestionIndex++;
     loadQuestion();
+}
+
+loadQuestion();
 </script>
 
 </body>
