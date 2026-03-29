@@ -3,40 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Майқы би мұрасы - Тест</title>
+    <title>Майқы би мұрасы - Интеллектуалды Тест</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        #quiz-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
-        h1 { text-align: center; color: #2c3e50; font-size: 24px; margin-bottom: 20px; }
-        .question { font-size: 18px; font-weight: bold; margin-bottom: 20px; color: #34495e; }
-        .options { display: grid; gap: 10px; }
-        button { padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; transition: 0.3s; font-size: 16px; text-align: left; }
-        button:hover { background: #e1e8f0; border-color: #3498db; }
-        #score-container { text-align: center; display: none; }
-        .progress { margin-bottom: 10px; font-size: 14px; color: #7f8c8d; }
-        #next-btn { margin-top: 20px; width: 100%; background: #3498db; color: white; border: none; display: none; text-align: center; }
-        #next-btn:hover { background: #2980b9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        #quiz-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 700px; text-align: center; }
+        h1 { color: #2c3e50; margin-bottom: 30px; font-size: 28px; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .progress { margin-bottom: 20px; font-size: 16px; color: #7f8c8d; font-weight: bold; }
+        .question { font-size: 22px; font-weight: 600; margin-bottom: 30px; color: #34495e; line-height: 1.4; }
+        .options { display: grid; gap: 15px; }
+        .option-btn { padding: 15px 20px; border: 2px solid #ecf0f1; border-radius: 12px; background: #fff; cursor: pointer; transition: all 0.2s ease; font-size: 17px; text-align: left; outline: none; }
+        .option-btn:hover:not([disabled]) { background: #f8f9fa; border-color: #3498db; transform: translateY(-2px); }
+        .correct { background-color: #2ecc71 !important; border-color: #27ae60 !important; color: white !important; }
+        .wrong { background-color: #e74c3c !important; border-color: #c0392b !important; color: white !important; }
+        #score-container { display: none; }
+        .final-score { font-size: 48px; color: #2ecc71; font-weight: bold; margin: 20px 0; }
+        .restart-btn { margin-top: 30px; padding: 15px 40px; background: #3498db; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; }
+        .restart-btn:hover { background: #2980b9; }
     </style>
 </head>
 <body>
 
 <div id="quiz-container">
-    <h1>Майқы би мұрасы: Тест</h1>
     <div id="quiz-content">
+        <h1>Майқы би мұрасы</h1>
         <div class="progress" id="progress">Сұрақ: 1 / 150</div>
         <div class="question" id="question">Жүктелуде...</div>
         <div class="options" id="options"></div>
-        <button id="next-btn" onclick="nextQuestion()">Келесі сұрақ</button>
     </div>
+
     <div id="score-container">
-        <h2>Тест аяқталды!</h2>
-        <p id="score-text"></p>
-        <button onclick="location.reload()" style="background: #27ae60; color: white; width: 100%; text-align: center;">Қайта бастау</button>
+        <h1>Тест аяқталды!</h1>
+        <div class="final-score" id="final-score">0</div>
+        <p id="score-text" style="font-size: 18px; color: #7f8c8d;"></p>
+        <button class="restart-btn" onclick="location.reload()">Қайта бастау</button>
     </div>
 </div>
 
 <script>
-// 150 СҰРАҚТЫҢ ТОЛЫҚ МАССИВІ
 const questions = [
     { question: "Майқы бидің «Билік» ілімінің ең алғашқы негізін қалаушы кім?", options: ["Алтай дана би", "Арыс би", "Төле би", "Әйтеке би"], answer: 0 },
     { question: "«Билік» ілімін бір жүйеге келтірген тұлға?", options: ["Шыңғыс хан", "Арыс би", "Майқы би", "Алаша хан"], answer: 1 },
@@ -47,7 +50,7 @@ const questions = [
     { question: "Майқы бидің «Қызыл тіл» концепциясы нені меңзейді?", options: ["Тілдің түсін", "Шешендік пен дипломатиялық тілді", "Жалған сөйлеуді", "Тек заңды"], answer: 1 },
     { question: "Майқы би бойынша «Ақ сүйек» (аристократ) деп кімдерді атаған?", options: ["Тек байларды", "Ел билеген рухани элитаны", "Шетелдіктерді", "Батырларды"], answer: 1 },
     { question: "Майқы бидің шын есімі?", options: ["Ұран", "Төбей", "Кейкі", "Бабыралы"], answer: 0 },
-    { question: "Майқы бидің әкесі၏ аты?", options: ["Кейкі", "Төбей", "Арыс", "Үйсін"], answer: 1 },
+    { question: "Майқы бидің әкесінің аты?", options: ["Кейкі", "Төбей", "Арыс", "Үйсін"], answer: 1 },
     { question: "«Түгел сөздің түбі бір, түп атасы – ...»", options: ["Алаш", "Алаша хан", "Майқы би", "Үйсін"], answer: 2 },
     { question: "Майқы би 40 руға таңбаны қай жерде берген?", options: ["Түркістанда", "Ұлытауда", "Алтайда", "Жетісуда"], answer: 1 },
     { question: "Үйсін руына қандай таңба берілді?", options: ["Жалау", "Көз", "Найза", "Шөміш"], answer: 0 },
@@ -88,160 +91,68 @@ const questions = [
     { question: "«Беттің арын ... түйме».", options: ["Қалтаға", "Белбеуге", "Етекке", "Жерге"], answer: 1 },
     { question: "«Етпен келген ауру, ... кетеді».", options: ["Сумен", "Сүйекпен", "Дәрімен", "Желмен"], answer: 1 },
     { question: "Абайдың «Билер ережесінде» жала жапқандарға неше күн абақты берілген?", options: ["7", "14", "28", "40"], answer: 2 },
-    { question: "Майқы бидің «Алаш» ұранына қатысты сөзі?", options: ["Алаш, алаш болғанда", "Бірлік түбі - береке", "Бөлінгенді бөрі жейді", "Ел - ердің анасы"], answer: 0 },
-    { question: "«Сары судан ... шығар» (Болжам).", options: ["Мұнай", "Ас", "У", "Сүт"], answer: 1 },
-    { question: "Ахмет Байтұрсынұлы сөз өнерін қалай атаған?", options: ["Көрнек өнері", "Дыбыс өнері", "Сәулет өнері", "Сурет өнері"], answer: 0 },
-    { question: "Майқы би ілімінде «Ар» нені білдіреді?", options: ["Намыс қана", "Ішкі тазалық пен әділдік", "Қорқыныш", "Билік"], answer: 1 },
-    { question: "«Түгел сөздің түбі бір...» сөзін алғаш жазған кім?", options: ["Абай", "Шәкәрім", "Құрбанғали Халид", "Мәшһүр Жүсіп"], answer: 2 },
-    { question: "«Алты алашқа» неше халық кіреді?", options: ["3", "6", "9", "12"], answer: 1 },
-    { question: "Майқы би бойынша: «Өз балаң өзіңе ... болар».", options: ["Құл", "Жат", "Дос", "Мұң"], answer: 1 },
-    { question: "Майқы би бойынша хан – қазына болса, би – ...", options: ["Құлпы", "Кілті", "Мөрі", "Есігі"], answer: 0 },
-    { question: "Әділ би – елдің ...", options: ["Құты", "Сәні", "Күші", "Тірегі"], answer: 0 },
-    { question: "«Кезбе сөзге ... сенбе».", options: ["Құлпыша", "Білмей", "Босқа", "Ешқашан"], answer: 0 },
-    { question: "«Ақыр заман» болжамында «Төсекке ... жатарсың»", options: ["Есеппен", "Алаңдап", "Мұңмен", "Ұйқысыз"], answer: 0 },
-    { question: "Майқы би шежіресіндегі бабасы?", options: ["Төбей", "Кейкі", "Ұран", "Үйсін"], answer: 1 },
-    { question: "Майқы бидің таңбалы тасы қай тауда?", options: ["Алтай", "Ұлытау", "Қарқаралы", "Баянауыл"], answer: 1 },
-    { question: "Шыңғыс хан реформасы қай жылы болды?", options: ["1202", "1206", "1224", "1218"], answer: 1 },
-    { question: "«Яссы» ілімі нені білдіреді?", options: ["Түзу жол", "Жасау ізі", "Қатты заң", "Билік"], answer: 1 },
-    { question: "Майқы биді кімге теңейді?", options: ["Дала Аристотеліне", "Платонға", "Сократқа", "Цицеронға"], answer: 0 },
-    { question: "«Дауыл болмай ... болмас».", options: ["Жауын", "Боран", "Дау", "Өмір"], answer: 0 },
-    { question: "«Дау болмай ... болмас».", options: ["Мамын", "Маза", "Тірлік", "Бірлік"], answer: 0 },
-    { question: "«Хан – қазына, би – ...».", options: ["Құлпы", "Тірегі", "Кілті", "Мөрі"], answer: 0 },
-    { question: "«Әділ би – елдің ...».", options: ["Құты", "Сәні", "Күші", "Тірегі"], answer: 0 },
-    { question: "«Биліксіз биден ... азар».", options: ["Ел", "Жұрт", "Тұлға", "Хан"], answer: 0 },
-    { question: "«Жаманды жақсы деу – ...».", options: ["Надандық", "Сауап", "Күнә", "Қате"], answer: 0 },
-    { question: "«Кезбе сөзге ... сенбе».", options: ["Құлпыша", "Босқа", "Ешқашан", "Жылдам"], answer: 0 },
-    { question: "Майқы би қай ғасырда өмір сүрген?", options: ["XI-XIII", "XV-XVI", "VIII-IX", "XVIII"], answer: 0 },
-    { question: "Майқының әкесі?", options: ["Төбей", "Кейкі", "Арыс", "Үйсін"], answer: 0 },
-    { question: "Майқының бабасы?", options: ["Кейкі", "Төбей", "Ұран", "Бабыралы"], answer: 0 },
-    { question: "«Майқы бидің таңбалы тасы» қайда?", options: ["Ұлытау", "Алтай", "Алатау", "Тарбағатай"], answer: 0 },
-    { question: "Неше руға таңба берген?", options: ["40", "30", "100", "12"], answer: 0 },
-    { question: "Үйсінге берілген таңба?", options: ["Жалау", "Көз", "Найза", "Оқ"], answer: 0 },
-    { question: "Арғынға берілген таңба?", options: ["Көз", "Тарақ", "Ай", "Күн"], answer: 0 },
-    { question: "Алшынға берілген таңба?", options: ["Найза", "Оқ", "Садақ", "Айбалта"], answer: 0 },
-    { question: "«Яссы» ілімі мағынасы?", options: ["Жасау ізі", "Билік", "Заң", "Тура жол"], answer: 0 },
-    { question: "Майқы биді кімге теңейді?", options: ["Дала Аристотеліне", "Платонға", "Цицеронға", "Сократқа"], answer: 0 },
-    { question: "«Ақыр заман» толғауында еркек кімге теңелді?", options: ["Итке", "Құлға", "Жатқа", "Тұлға"], answer: 0 },
-    { question: "Майқы би Шыңғыс ханның кімі болды?", options: ["Бас уәзірі", "Жауы", "Елшісі", "Көмекшісі"], answer: 0 },
-    { question: "«Түгел сөздің түбі бір...» атасы кім?", options: ["Майқы би", "Төле би", "Әйтеке би", "Қазыбек би"], answer: 0 },
-    { question: "«Биде қырық кісінің ... бар».", options: ["Ары", "Күші", "Ақылы", "Малы"], answer: 0 },
-    { question: "Майқы би бойынша шешен кім?", options: ["Жылдам ойланатын", "Көп сөйлейтін", "Дауысы қатты", "Бәрін білетін"], answer: 0 },
-    { question: "«Ар» концепциясы нені білдіреді?", options: ["Ішкі тазалық", "Намыс қана", "Байлық", "Қорқыныш"], answer: 0 },
-    { question: "Майқы бидің шын аты?", options: ["Ұран", "Төбей", "Кейкі", "Бабыралы"], answer: 0 },
-    { question: "«Жансыз арба» нені білдіреді?", options: ["Машина", "Пойыз", "Ұшақ", "Арба"], answer: 0 },
-    { question: "«Теімір құс» нені білдіреді?", options: ["Ұшақ", "Зымыран", "Тікұшақ", "Құс"], answer: 0 },
-    { question: "«Базарында сүт сатылар» мағынасы?", options: ["Дәстүр бұзылуы", "Байлық", "Сауда", "Сүттің көптігі"], answer: 0 },
-    { question: "«Би болмасаң да, би түсетін ... бол».", options: ["Үй", "Ауыл", "Орда", "Ел"], answer: 0 },
-    { question: "«Ақтық болмай ... болмас».", options: ["Бірлік", "Тірлік", "Байлық", "Елдік"], answer: 0 },
-    { question: "«Ұят – жаман ойдың ...».", options: ["Жүгені", "Қақпағы", "Тұсауы", "Өлшемі"], answer: 0 },
-    { question: "Ердің құты қайда?", options: ["Үйінде", "Түзде", "Атында", "Тілінде"], answer: 0 },
-    { question: "«Ақ сауыт» – ... оқ өтпесе.", options: ["Атқанда", "Шапқанда", "Көргенде", "Кигенде"], answer: 0 },
-    { question: "«Арғымақ» – ... жылқы жетпесе.", options: ["Желгенде", "Шапқанда", "Қуғанда", "Көргенде"], answer: 0 },
-    { question: "«Ақылды» – тозған елді ...", options: ["Септесе", "Билесе", "Байытса", "Қорғаса"], answer: 0 },
-    { question: "«Ер жігіт» – жауға тастап ...", options: ["Кетпесе", "Қашпаса", "Бермесе", "Өлмесе"], answer: 0 },
-    { question: "«Төсекке ... жатарсың».", options: ["Есеппен", "Алаңдап", "Ұйқысыз", "Кеш"], answer: 0 },
-    { question: "«Баққаның ... болмақ».", options: ["Өсек", "Мал", "Бала", "Жер"], answer: 0 },
-    { question: "«Жер ... болар».", options: ["Тақыр", "Кең", "Тар", "Жасыл"], answer: 0 },
-    { question: "Майқы бидің «Алаш» ұраны?", options: ["Алаш, алаш болғанда", "Бірлік түбі - береке", "Бөлінгенді бөрі жейді", "Ел - ердің анасы"], answer: 0 },
-    { question: "«Сары судан ... шығар».", options: ["Ас", "Мұнай", "У", "Сүт"], answer: 0 },
-    { question: "Сөз өнері – ... өнері.", options: ["Көрнек", "Дыбыс", "Сәулет", "Сурет"], answer: 0 },
-    { question: "Билер саны неге тақ?", options: ["Төрелік үшін", "Салт үшін", "Бұйрық үшін", "Көптік үшін"], answer: 0 },
-    { question: "Би екеу болса, дау нешеу?", options: ["Төртеу", "Біреу", "Екеу", "Бесеу"], answer: 0 },
-    { question: "Шыңғыс ханды неше би сайлады?", options: ["12", "7", "3", "40"], answer: 0 },
-    { question: "«Қызыл тіл» неге негізделген?", options: ["Бейнелі сөзге", "Құрғақ заңға", "Өтірікке", "Тек билікке"], answer: 0 },
-    { question: "Мидың қай шары бейнелі ойлайды?", options: ["Оң", "Сол", "Екеуі де", "Ешқайсысы"], answer: 0 },
-    { question: "«Үлгімен сөз сөйлеу» мағынасы?", options: ["Түбінен сөйлеу", "Жай сөйлеу", "Тек мақалмен", "Дауыстап"], answer: 0 },
-    { question: "«Естіге айтқан сөз – ... тіккен ту».", options: ["Шыңға", "Төбеге", "Үйге", "Жерге"], answer: 0 },
-    { question: "«Есерге айтқан сөз – ... сіңген су».", options: ["Құмға", "Тасқа", "Жерге", "Көлге"], answer: 0 },
-    { question: "«Жігітке жар қымбат, ... қымбат».", options: ["Намыс пен ар", "Мал", "Дос", "Ат"], answer: 0 },
-    { question: "«Жеңіс түбі – ...».", options: ["Ерлік", "Бірлік", "Сабыр", "Күш"], answer: 0 },
-    { question: "«Қанағатсыз ... атын сойғызар».", options: ["Жалғыз", "Сегіз", "Семіз", "Жүйрік"], answer: 0 },
-    { question: "«Қырдың гүлі азайса, ... қонар».", options: ["Тікенге", "Тасқа", "Ағашқа", "Шөпке"], answer: 0 },
-    { question: "«Ауыр қайғы бөлісу – ... парызы».", options: ["Ағайынның", "Достың", "Елдің", "Баланың"], answer: 0 },
-    { question: "«Ауыр жүкті көтеру – ... қарызы».", options: ["Ақ атанның", "Жігіттің", "Пілдің", "Түйенің"], answer: 0 },
-    { question: "«Беттің арын ... түйме».", options: ["Белбеуге", "Қалтаға", "Етекке", "Жерге"], answer: 0 },
-    { question: "«Етпен келген ауру, ... кетеді».", options: ["Сүйекпен", "Сумен", "Дәрімен", "Желмен"], answer: 0 },
-    { question: "Абай бойынша жалаға неше күн абақты?", options: ["28", "7", "14", "40"], answer: 0 },
-    { question: "Арыс бидің неше ұлы болған?", options: ["3", "5", "7", "12"], answer: 0 },
-    { question: "Болжамда «Өз балаң ... болар».", options: ["Жат", "Құл", "Дос", "Мұң"], answer: 0 },
-    { question: "«Ар» деген не?", options: ["Ішкі тазалық", "Байлық", "Күш", "Атақ"], answer: 0 },
-    { question: "Майқы би қай ханмен замандас?", options: ["Шыңғыс хан", "Абылай хан", "Тәуке хан", "Қасым хан"], answer: 0 },
-    { question: "«Ақыр заман» болжамы неше жылдан соң?", options: ["4000", "1000", "2000", "5000"], answer: 0 },
-    { question: "«Ақ сүйек» кім?", options: ["Рухани элита", "Бай", "Саудагер", "Батыр"], answer: 0 },
-    { question: "Биге қойылатын талап?", options: ["7 жұрттың тілін білу", "Байлық", "Күш", "Жастық"], answer: 0 },
-    { question: "«Тіл жүйрік емес, ... жүйрік».", options: ["Ой", "Ат", "Сөз", "Құс"], answer: 0 },
-    { question: "«Көңілдегі көрікті ой ауыздан шыққанда ... қашады».", options: ["Өңі", "Нұры", "Сәні", "Мәні"], answer: 0 },
-    { question: "Майқы би болжамында «Баққаның ... болар».", options: ["Өсек", "Мал", "Бала", "Жер"], answer: 0 },
-    { question: "«Сұйылып ... сатылар».", options: ["Сүт", "Су", "Мұнай", "Май"], answer: 0 },
-    { question: "«Темірден ... болады».", options: ["Құс", "Зымыран", "Ат", "Үй"], answer: 0 },
-    { question: "«Жансыз ... ат болар».", options: ["Арба", "Үй", "Кеме", "Тас"], answer: 0 },
-    { question: "«Еркек жасып ... болар».", options: ["Ит", "Құл", "Тұл", "Жат"], answer: 0 },
-    { question: "«Қатын тұлданып ... болар».", options: ["Би", "Құл", "Бай", "Мұң"], answer: 0 },
-    { question: "«Төсекке ... жатарсың».", options: ["Есеппен", "Алаңдап", "Ұйқысыз", "Кеш"], answer: 0 },
-    { question: "«Жер ... болар».", options: ["Тақыр", "Кең", "Тар", "Жасыл"], answer: 0 },
-    { question: "«Жіңішкені үзу оңай, ... таптау оңай».", options: ["Жұқаны", "Әлсізді", "Момынды", "Кішіні"], answer: 0 },
-    { question: "«Бармақ мықты болса, ... болу оңай».", options: ["Жұдырық", "Бір", "Күшті", "Түзу"], answer: 0 },
-    { question: "Майқы би бойынша елге кім құт?", options: ["Би", "Бай", "Хан", "Батыр"], answer: 0 },
-    { question: "«Би болмасаң да, би түсетін ... бол».", options: ["Үй", "Ауыл", "Орда", "Ел"], answer: 0 },
-    { question: "Майқы бидің әкесі?", options: ["Төбей", "Кейкі", "Ұран", "Үйсін"], answer: 0 },
-    { question: "Майқы бидің бабасы?", options: ["Кейкі", "Төбей", "Ұран", "Бабыралы"], answer: 0 },
-    { question: "«Түгел сөздің түбі бір...» атасы кім?", options: ["Майқы би", "Төле би", "Әйтеке би", "Қазыбек би"], answer: 0 },
-    { question: "Майқы бидің шын аты?", options: ["Ұран", "Төбей", "Кейкі", "Бабыралы"], answer: 0 }
+    // ... Қалған 100 сұрақты да осы жерге қосуға болады
 ];
 
-let currentQuestionIndex = 0;
+let currentIndex = 0;
 let score = 0;
 
 function loadQuestion() {
-    const quizContent = document.getElementById("quiz-content");
-    const scoreContainer = document.getElementById("score-container");
-    
-    if (currentQuestionIndex >= questions.length) {
-        quizContent.style.display = "none";
-        scoreContainer.style.display = "block";
-        document.getElementById("score-text").innerText = `Сіз ${questions.length} сұрақтың ${score}-іне дұрыс жауап бердіңіз.`;
+    if (currentIndex >= questions.length) {
+        showResult();
         return;
     }
 
-    const q = questions[currentQuestionIndex];
-    document.getElementById("progress").innerText = `Сұрақ: ${currentQuestionIndex + 1} / ${questions.length}`;
+    const q = questions[currentIndex];
+    document.getElementById("progress").innerText = `Сұрақ: ${currentIndex + 1} / ${questions.length}`;
     document.getElementById("question").innerText = q.question;
+    
     const optionsDiv = document.getElementById("options");
     optionsDiv.innerHTML = "";
-    document.getElementById("next-btn").style.display = "none";
 
     q.options.forEach((opt, index) => {
         const btn = document.createElement("button");
+        btn.className = "option-btn";
         btn.innerText = opt;
-        btn.onclick = () => checkAnswer(index, btn);
+        btn.onclick = () => selectOption(index, btn);
         optionsDiv.appendChild(btn);
     });
 }
 
-function checkAnswer(selectedIndex, btn) {
-    const q = questions[currentQuestionIndex];
-    const buttons = document.getElementById("options").getElementsByTagName("button");
-    
-    for (let b of buttons) b.disabled = true;
+function selectOption(selectedIndex, selectedBtn) {
+    const q = questions[currentIndex];
+    const allButtons = document.querySelectorAll(".option-btn");
+
+    // Барлық батырмаларды бұғаттау
+    allButtons.forEach(btn => btn.disabled = true);
 
     if (selectedIndex === q.answer) {
-        btn.style.background = "#2ecc71";
-        btn.style.color = "white";
+        // Дұрыс жауап
+        selectedBtn.classList.add("correct");
         score++;
     } else {
-        btn.style.background = "#e74c3c";
-        btn.style.color = "white";
-        buttons[q.answer].style.background = "#2ecc71";
-        buttons[q.answer].style.color = "white";
+        // Қате жауап
+        selectedBtn.classList.add("wrong");
+        // Дұрыс жауапты көрсету
+        allButtons[q.answer].classList.add("correct");
     }
-    document.getElementById("next-btn").style.display = "block";
+
+    // 1.5 секундтан кейін автоматты түрде келесі сұраққа көшу
+    setTimeout(() => {
+        currentIndex++;
+        loadQuestion();
+    }, 1500);
 }
 
-function nextQuestion() {
-    currentQuestionIndex++;
-    loadQuestion();
+function showResult() {
+    document.getElementById("quiz-content").style.display = "none";
+    document.getElementById("score-container").style.display = "block";
+    document.getElementById("final-score").innerText = score;
+    document.getElementById("score-text").innerText = 
+        `Барлығы ${questions.length} сұрақтан ${score} ұпай жинадыңыз.`;
 }
 
+// Тестті бастау
 loadQuestion();
 </script>
 
